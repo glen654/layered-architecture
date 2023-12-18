@@ -317,13 +317,40 @@ public class PlaceOrderFormController {
         Connection connection = null;
         try {
             connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement stm = connection.prepareStatement("SELECT oid FROM `Orders` WHERE oid=?");
-            stm.setString(1, orderId);
-            /*if order id already exist*/
-            if (stm.executeQuery().next()) {
+
+            boolean isExist = orderDAO.orderExist(orderId);
+
+            if(isExist){
 
             }
 
+            boolean isSaved = orderDAO.saveOrder(orderId,orderDate,customerId);
+
+            if(isSaved){
+                return false;
+            }
+
+            boolean isSave = orderDetailsDAO.saveOrderDetails(orderId,orderDetails);
+            if(isSave){
+                return false;
+            }
+            for (OrderDetailDTO detail: orderDetails){
+                ItemDTO item =findItem(detail.getItemCode());
+                item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
+
+
+                boolean isUpdated = itemDAO.updateItem(item,connection);
+                if(isUpdated){
+                    return false;
+                }
+            }
+            return true;
+           /* PreparedStatement stm = connection.prepareStatement("SELECT oid FROM `Orders` WHERE oid=?");
+            stm.setString(1, orderId);
+            *//*if order id already exist*//*
+            if (stm.executeQuery().next()) {
+
+            }
             connection.setAutoCommit(false);
             stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
             stm.setString(1, orderId);
@@ -369,7 +396,7 @@ public class PlaceOrderFormController {
 
             connection.commit();
             connection.setAutoCommit(true);
-            return true;
+            return true;*/
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

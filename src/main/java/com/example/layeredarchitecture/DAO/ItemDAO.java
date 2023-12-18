@@ -20,4 +20,6 @@ public interface ItemDAO {
      String generateItemId() throws SQLException, ClassNotFoundException;
 
      ItemDTO itemFind(String newItemCode) throws SQLException, ClassNotFoundException;
+
+      boolean updateItem(ItemDTO item, Connection connection) throws SQLException;
 }
