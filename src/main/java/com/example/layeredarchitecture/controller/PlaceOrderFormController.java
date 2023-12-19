@@ -321,82 +321,45 @@ public class PlaceOrderFormController {
             boolean isExist = orderDAO.orderExist(orderId);
 
             if(isExist){
-
+                return false;
             }
+            connection.setAutoCommit(false);
 
             boolean isSaved = orderDAO.saveOrder(orderId,orderDate,customerId);
 
-            if(isSaved){
-                return false;
-            }
-
-            boolean isSave = orderDetailsDAO.saveOrderDetails(orderId,orderDetails);
-            if(isSave){
-                return false;
-            }
-            for (OrderDetailDTO detail: orderDetails){
-                ItemDTO item =findItem(detail.getItemCode());
-                item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
-
-
-                boolean isUpdated = itemDAO.updateItem(item,connection);
-                if(isUpdated){
-                    return false;
-                }
-            }
-            return true;
-           /* PreparedStatement stm = connection.prepareStatement("SELECT oid FROM `Orders` WHERE oid=?");
-            stm.setString(1, orderId);
-            *//*if order id already exist*//*
-            if (stm.executeQuery().next()) {
-
-            }
-            connection.setAutoCommit(false);
-            stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
-            stm.setString(1, orderId);
-            stm.setDate(2, Date.valueOf(orderDate));
-            stm.setString(3, customerId);
-
-            if (stm.executeUpdate() != 1) {
+            if(!isSaved){
                 connection.rollback();
                 connection.setAutoCommit(true);
                 return false;
             }
 
-            stm = connection.prepareStatement("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)");
-
-            for (OrderDetailDTO detail : orderDetails) {
-                stm.setString(1, orderId);
-                stm.setString(2, detail.getItemCode());
-                stm.setBigDecimal(3, detail.getUnitPrice());
-                stm.setInt(4, detail.getQty());
-
-                if (stm.executeUpdate() != 1) {
-                    connection.rollback();
-                    connection.setAutoCommit(true);
-                    return false;
-                }
-
-//                //Search & Update Item
-                ItemDTO item = findItem(detail.getItemCode());
-                item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
-
-                PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
-                pstm.setString(1, item.getDescription());
-                pstm.setBigDecimal(2, item.getUnitPrice());
-                pstm.setInt(3, item.getQtyOnHand());
-                pstm.setString(4, item.getCode());
-
-                if (!(pstm.executeUpdate() > 0)) {
-                    connection.rollback();
-                    connection.setAutoCommit(true);
-                    return false;
-                }
+            boolean isSave = orderDetailsDAO.saveOrderDetails(orderId,orderDetails,connection);
+            if(!isSave){
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
             }
 
+            for (OrderDetailDTO detail: orderDetails){
+
+
+                ItemDTO item =findItem(detail.getItemCode());
+
+                item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
+
+
+                boolean isUpdated = itemDAO.updateItem(new ItemDTO(item.getCode(),item.getDescription(),item.getUnitPrice(),item.getQtyOnHand()));
+                if(!isUpdated){
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                    return false;
+                }
+
+            }
             connection.commit();
             connection.setAutoCommit(true);
-            return true;*/
+            return true;
+
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -409,7 +372,7 @@ public class PlaceOrderFormController {
 
     public ItemDTO findItem(String code) {
         try {
-            var dto = itemDAO.itemFind(code);
+           return  itemDAO.itemFind(code);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);
         } catch (ClassNotFoundException e) {
