@@ -22,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -51,7 +52,7 @@ public class SearchFormController implements Initializable {
     private TableColumn<?, ?> tblQty;
 
     @FXML
-    private TableView<?> tblSearch;
+    private TableView<SearchTM> tblSearch;
 
     @FXML
     private TableColumn<?, ?> tblUnitPrice;
@@ -95,6 +96,12 @@ public class SearchFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadAllOrderIds();
+
+        tblSearch.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        tblSearch.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+        tblSearch.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("description"));
+        tblSearch.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("qty"));
+        tblSearch.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
     }
 
     public void loadSearch(){
@@ -104,7 +111,7 @@ public class SearchFormController implements Initializable {
         try {
             ArrayList<SearchDTO> search = queryDAO.search(id);
             for(SearchDTO s : search){
-                //tblSearch.getItems().add(new SearchTM(s.getOrderId(), s.getOrderDate(), s.getDescription(), s.getQty(), s.getUnitPrice()));
+                tblSearch.getItems().add(new SearchTM(s.getOrderId(), s.getOrderDate(), s.getDescription(), s.getQty(), s.getUnitPrice()));
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
