@@ -1,14 +1,9 @@
 package com.example.layeredarchitecture.BO.impl;
 
 import com.example.layeredarchitecture.BO.custom.PlaceOrderBo;
-import com.example.layeredarchitecture.DAO.custom.CustomerDAO;
-import com.example.layeredarchitecture.DAO.custom.ItemDAO;
-import com.example.layeredarchitecture.DAO.custom.OrderDAO;
-import com.example.layeredarchitecture.DAO.custom.OrderDetailsDAO;
-import com.example.layeredarchitecture.DAO.custom.impl.CustomerDAOImpl;
-import com.example.layeredarchitecture.DAO.custom.impl.ItemDAOImpl;
-import com.example.layeredarchitecture.DAO.custom.impl.OrderDAOImpl;
-import com.example.layeredarchitecture.DAO.custom.impl.OrderDetailsDAOImpl;
+import com.example.layeredarchitecture.DAO.DAOFactory;
+import com.example.layeredarchitecture.DAO.custom.*;
+import com.example.layeredarchitecture.DAO.custom.impl.*;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.model.ItemDTO;
@@ -22,10 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceOrderBoImpl implements PlaceOrderBo {
-    CustomerDAO customerDAO = new CustomerDAOImpl();
-    ItemDAO itemDAO = new ItemDAOImpl();
-    OrderDAO orderDAO = new OrderDAOImpl();
-    OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDao(DAOFactory.DAOTypes.CUSTOMER);
+    ItemDAO itemDAO = (ItemDAO) DAOFactory.getDaoFactory().getDao(DAOFactory.DAOTypes.ITEM);
+    OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDao(DAOFactory.DAOTypes.ORDER);
+    OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) DAOFactory.getDaoFactory().getDao(DAOFactory.DAOTypes.ORDER_DETAIL);
+    QueryDAO queryDAO = (QueryDAO) DAOFactory.getDaoFactory().getDao(DAOFactory.DAOTypes.QUERY);
     @Override
     public boolean placeOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException {
         Connection connection = null;

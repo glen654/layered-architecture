@@ -2,6 +2,7 @@ package com.example.layeredarchitecture.controller;
 
 import com.example.layeredarchitecture.BO.custom.PlaceOrderBo;
 import com.example.layeredarchitecture.BO.impl.PlaceOrderBoImpl;
+import com.example.layeredarchitecture.BO.BOFactory;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.model.ItemDTO;
 import com.example.layeredarchitecture.model.OrderDetailDTO;
@@ -51,7 +52,7 @@ public class PlaceOrderFormController {
     public Label lblDate;
     public Label lblTotal;
     private String orderId;
-    PlaceOrderBo placeOrderBo =  new PlaceOrderBoImpl();
+    PlaceOrderBo placeOrderBo = (PlaceOrderBo) BOFactory.getBOFactory().getBo(BOFactory.BOTypes.PLACE_ORDER);
     public void initialize() throws SQLException, ClassNotFoundException {
 
         tblOrderDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));

@@ -1,7 +1,7 @@
 package com.example.layeredarchitecture.controller;
 
 import com.example.layeredarchitecture.BO.custom.ItemBo;
-import com.example.layeredarchitecture.BO.impl.ItemBoImpl;
+import com.example.layeredarchitecture.BO.BOFactory;
 import com.example.layeredarchitecture.model.ItemDTO;
 import com.example.layeredarchitecture.view.tdm.ItemTM;
 import com.jfoenix.controls.JFXButton;
@@ -38,7 +38,7 @@ public class ManageItemsFormController {
     public JFXButton btnAddNewItem;
 
     //ItemDAO itemDAO = new ItemDAOImpl();
-    ItemBo itemBo = new ItemBoImpl();
+    ItemBo itemBo = (ItemBo) BOFactory.getBOFactory().getBo(BOFactory.BOTypes.ITEM);
     public void initialize() {
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
         tblItems.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("description"));
