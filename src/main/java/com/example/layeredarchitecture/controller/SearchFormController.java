@@ -2,13 +2,10 @@ package com.example.layeredarchitecture.controller;
 
 import com.example.layeredarchitecture.DAO.custom.OrderDAO;
 import com.example.layeredarchitecture.DAO.custom.QueryDAO;
-import com.example.layeredarchitecture.DAO.impl.OrderDAOImpl;
-import com.example.layeredarchitecture.DAO.impl.OrderDetailsDAOImpl;
-import com.example.layeredarchitecture.DAO.impl.QueryDAOImpl;
-import com.example.layeredarchitecture.model.CustomerDTO;
+import com.example.layeredarchitecture.DAO.custom.impl.OrderDAOImpl;
+import com.example.layeredarchitecture.DAO.custom.impl.QueryDAOImpl;
 import com.example.layeredarchitecture.model.OrderDTO;
 import com.example.layeredarchitecture.model.SearchDTO;
-import com.example.layeredarchitecture.view.tdm.CustomerTM;
 import com.example.layeredarchitecture.view.tdm.SearchTM;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.application.Platform;

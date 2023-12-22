@@ -1,13 +1,14 @@
-package com.example.layeredarchitecture.BO;
+package com.example.layeredarchitecture.BO.impl;
 
+import com.example.layeredarchitecture.BO.custom.PlaceOrderBo;
 import com.example.layeredarchitecture.DAO.custom.CustomerDAO;
 import com.example.layeredarchitecture.DAO.custom.ItemDAO;
 import com.example.layeredarchitecture.DAO.custom.OrderDAO;
 import com.example.layeredarchitecture.DAO.custom.OrderDetailsDAO;
-import com.example.layeredarchitecture.DAO.impl.CustomerDAOImpl;
-import com.example.layeredarchitecture.DAO.impl.ItemDAOImpl;
-import com.example.layeredarchitecture.DAO.impl.OrderDAOImpl;
-import com.example.layeredarchitecture.DAO.impl.OrderDetailsDAOImpl;
+import com.example.layeredarchitecture.DAO.custom.impl.CustomerDAOImpl;
+import com.example.layeredarchitecture.DAO.custom.impl.ItemDAOImpl;
+import com.example.layeredarchitecture.DAO.custom.impl.OrderDAOImpl;
+import com.example.layeredarchitecture.DAO.custom.impl.OrderDetailsDAOImpl;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.model.ItemDTO;
@@ -20,7 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaceOrderBoImpl implements PlaceOrderBo{
+public class PlaceOrderBoImpl implements PlaceOrderBo {
     CustomerDAO customerDAO = new CustomerDAOImpl();
     ItemDAO itemDAO = new ItemDAOImpl();
     OrderDAO orderDAO = new OrderDAOImpl();

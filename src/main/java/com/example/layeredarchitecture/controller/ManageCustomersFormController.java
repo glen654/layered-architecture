@@ -1,9 +1,7 @@
 package com.example.layeredarchitecture.controller;
 
-import com.example.layeredarchitecture.BO.CustomerBo;
-import com.example.layeredarchitecture.BO.CustomerBoImpl;
-import com.example.layeredarchitecture.DAO.custom.CustomerDAO;
-import com.example.layeredarchitecture.DAO.impl.CustomerDAOImpl;
+import com.example.layeredarchitecture.BO.custom.CustomerBo;
+import com.example.layeredarchitecture.BO.impl.CustomerBoImpl;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.view.tdm.CustomerTM;
 import com.jfoenix.controls.JFXButton;

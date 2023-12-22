@@ -1,19 +1,9 @@
 package com.example.layeredarchitecture.controller;
 
-import com.example.layeredarchitecture.BO.PlaceOrderBo;
-import com.example.layeredarchitecture.BO.PlaceOrderBoImpl;
-import com.example.layeredarchitecture.DAO.custom.CustomerDAO;
-import com.example.layeredarchitecture.DAO.custom.ItemDAO;
-import com.example.layeredarchitecture.DAO.custom.OrderDAO;
-import com.example.layeredarchitecture.DAO.custom.OrderDetailsDAO;
-import com.example.layeredarchitecture.DAO.impl.CustomerDAOImpl;
-import com.example.layeredarchitecture.DAO.impl.ItemDAOImpl;
-import com.example.layeredarchitecture.DAO.impl.OrderDAOImpl;
-import com.example.layeredarchitecture.DAO.impl.OrderDetailsDAOImpl;
-import com.example.layeredarchitecture.db.DBConnection;
+import com.example.layeredarchitecture.BO.custom.PlaceOrderBo;
+import com.example.layeredarchitecture.BO.impl.PlaceOrderBoImpl;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.model.ItemDTO;
-import com.example.layeredarchitecture.model.OrderDTO;
 import com.example.layeredarchitecture.model.OrderDetailDTO;
 import com.example.layeredarchitecture.view.tdm.OrderDetailTM;
 import com.jfoenix.controls.JFXButton;
